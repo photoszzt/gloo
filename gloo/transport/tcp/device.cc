@@ -8,10 +8,12 @@
 
 #include "gloo/transport/tcp/device.h"
 
+#include <array>
 #include <ifaddrs.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <string.h>
+
 
 #include "gloo/common/linux.h"
 #include "gloo/common/logging.h"
@@ -251,8 +253,8 @@ void Device::registerDescriptor(int fd, int events, Handler* h) {
   loop_->registerDescriptor(fd, events, h);
 }
 
-void Device::unregisterDescriptor(int fd) {
-  loop_->unregisterDescriptor(fd);
+void Device::unregisterDescriptor(int fd, Handler* h) {
+  loop_->unregisterDescriptor(fd, h);
 }
 
 } // namespace tcp

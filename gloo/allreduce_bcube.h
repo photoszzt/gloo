@@ -68,8 +68,8 @@ class Node {
     for (int i = 0; i < steps; ++i) {
       peersPerStep_.emplace_back();
     }
-    numElemsPerStep_.reserve(steps);
-    ptrOffsetPerStep_.reserve(steps);
+    numElemsPerStep_.resize(steps);
+    ptrOffsetPerStep_.resize(steps);
   }
   /**
    * Get the rank of this node
@@ -270,7 +270,7 @@ class AllreduceBcube : public Algorithm {
         steps_(computeSteps(nodes_, base_)),
         fn_(fn),
         recvBufs_(steps_ * base_) {
-    if (nodes_ == 1) {
+    if (totalNumElems_ == 0 || nodes_ == 1) {
       return;
     }
     setupNodes();
@@ -295,7 +295,7 @@ class AllreduceBcube : public Algorithm {
                  std::max(myRank_, destRank));
         sendDataBufs_[destRank] =
             pair->createSendBuffer(slot, ptrs_[0], bytes_);
-        recvBufs_[bufIdx].reserve(recvSize);
+        recvBufs_[bufIdx].resize(recvSize);
         recvDataBufs_[destRank] = pair->createRecvBuffer(
             slot, &recvBufs_[bufIdx][0], recvSize * sizeof(T));
         recvBufIdx_[destRank] = bufIdx;
@@ -336,6 +336,9 @@ class AllreduceBcube : public Algorithm {
 #endif
 
   void run() {
+    if (totalNumElems_ == 0) {
+      return;
+    }
     // Local reduce operation
     for (int i = 1; i < ptrs_.size(); i++) {
       fn_->call(ptrs_[0], ptrs_[i], totalNumElems_);

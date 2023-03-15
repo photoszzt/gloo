@@ -1,3 +1,5 @@
+find_package(OpenSSL 1.1 REQUIRED EXACT)
+
 set(GLOO_TEST_SRCS
   "${CMAKE_CURRENT_SOURCE_DIR}/allgather_test.cc"
   "${CMAKE_CURRENT_SOURCE_DIR}/allgatherv_test.cc"
@@ -28,7 +30,7 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 endif()
 
 add_executable(gloo_test ${GLOO_TEST_SRCS})
-target_link_libraries(gloo_test gloo gtest ${GLOO_TEST_LIBRARIES})
+target_link_libraries(gloo_test gloo gtest ${GLOO_TEST_LIBRARIES} OpenSSL::SSL OpenSSL::Crypto)
 
 if(MSVC AND USE_LIBUV)
   add_custom_command(TARGET gloo_test POST_BUILD
@@ -48,8 +50,13 @@ if(USE_CUDA)
     "${CMAKE_CURRENT_SOURCE_DIR}/main.cc"
     )
 
-    cuda_add_executable(gloo_test_cuda ${GLOO_TEST_CUDA_SRCS})
-    target_link_libraries(gloo_test_cuda gloo_cuda gtest)
+    if(GLOO_USE_CUDA_TOOLKIT)
+      enable_language(CUDA)
+      add_executable(gloo_test_cuda ${GLOO_TEST_CUDA_SRCS})
+    else()
+      cuda_add_executable(gloo_test_cuda ${GLOO_TEST_CUDA_SRCS})
+    endif()
+    target_link_libraries(gloo_test_cuda gloo_cuda gtest OpenSSL::SSL OpenSSL::Crypto ${GLOO_CUDA_LIBRARIES})
   endif()
 endif()
 
@@ -64,5 +71,5 @@ if(USE_ROCM)
     )
 
   gloo_hip_add_executable(gloo_test_hip ${GLOO_TEST_HIP_SRCS})
-  target_link_libraries(gloo_test_hip gloo_hip gtest)
+  target_link_libraries(gloo_test_hip gloo_hip gtest OpenSSL::SSL OpenSSL::Crypto)
 endif()

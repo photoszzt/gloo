@@ -66,19 +66,18 @@ if(USE_ROCM)
   file(GLOB GLOO_HIP_SRCS
     "${HIPIFY_OUTPUT_DIR}/hip*.cc"
     "${HIPIFY_OUTPUT_DIR}/hip*.hip"
-    "${HIPIFY_OUTPUT_DIR}/nccl/nccl.hip"
     )
 
   file(GLOB GLOO_HIP_HDRS
     "${HIPIFY_OUTPUT_DIR}/hip*.h"
-    "${HIPIFY_OUTPUT_DIR}/nccl/nccl.h"
     )
 endif()
 
 # Compile TCP transport only on Linux (it uses epoll(2))
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
   set(GLOO_HAVE_TRANSPORT_TCP 1)
-  if(${USE_TCP_OPENSSL})
+  if(${USE_TCP_OPENSSL_LINK} OR ${USE_TCP_OPENSSL_LOAD})
+    find_package(OpenSSL 1.1 REQUIRED EXACT)
     set(GLOO_HAVE_TRANSPORT_TCP_TLS 1)
   else()
     set(GLOO_HAVE_TRANSPORT_TCP_TLS 0)
@@ -141,7 +140,12 @@ configure_file(config.h.in config.h)
 
 add_library(gloo ${GLOO_STATIC_OR_SHARED} ${GLOO_SRCS})
 if(USE_CUDA)
-  cuda_add_library(gloo_cuda ${GLOO_CUDA_SRCS} ${GLOO_STATIC_OR_SHARED})
+  if(GLOO_USE_CUDA_TOOLKIT)
+    enable_language(CUDA)
+    add_library(gloo_cuda ${GLOO_STATIC_OR_SHARED} ${GLOO_CUDA_SRCS})
+  else()
+    cuda_add_library(gloo_cuda ${GLOO_CUDA_SRCS} ${GLOO_STATIC_OR_SHARED})
+  endif()
   target_link_libraries(gloo_cuda gloo ${gloo_cuda_DEPENDENCY_LIBS})
 endif()
 if(USE_ROCM)
@@ -151,8 +155,14 @@ endif()
 if(USE_LIBUV)
   target_link_libraries(gloo PRIVATE uv_a)
 endif()
-if(USE_TCP_OPENSSL)
-  target_link_libraries(gloo PRIVATE ssl crypto)
+if(USE_TCP_OPENSSL_LINK)
+  target_compile_definitions(gloo PRIVATE USE_TCP_OPENSSL_LINK)
+  target_link_libraries(gloo PRIVATE OpenSSL::SSL OpenSSL::Crypto)
+elseif(USE_TCP_OPENSSL_LOAD)
+  target_compile_definitions(gloo PRIVATE USE_TCP_OPENSSL_LOAD)
+  # Explicitly include the OPENSSL_INCLUDE_DIR, just in case it's not already in our path
+  target_include_directories(gloo PRIVATE ${OPENSSL_INCLUDE_DIR})
+  target_link_libraries(gloo PRIVATE dl)
 endif()
 
 target_link_libraries(gloo PRIVATE ${gloo_DEPENDENCY_LIBS})
