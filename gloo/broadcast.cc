@@ -9,6 +9,7 @@
 #include "gloo/broadcast.h"
 
 #include <algorithm>
+#include <cstdio>
 #include <cstring>
 
 #include "gloo/common/logging.h"
@@ -18,6 +19,7 @@
 namespace gloo {
 
 void broadcast(BroadcastOptions& opts) {
+  fprintf(stderr, "bcast\n");
   const auto& context = opts.context;
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();

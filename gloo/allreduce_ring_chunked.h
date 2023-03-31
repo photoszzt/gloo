@@ -10,6 +10,7 @@
 
 #include <stddef.h>
 #include <string.h>
+#include <cstdio>
 
 #include "gloo/algorithm.h"
 #include "gloo/context.h"

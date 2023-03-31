@@ -8,6 +8,7 @@
 
 #include "gloo/gatherv.h"
 
+#include <cstdio>
 #include <cstring>
 #include <numeric>
 
@@ -71,6 +72,7 @@ void GathervOptions::setOutput(
 }
 
 void gatherv(GathervOptions& opts) {
+  fprintf(stderr, "gatherv\n");
   const auto& context = opts.context;
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();

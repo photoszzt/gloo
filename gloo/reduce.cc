@@ -10,6 +10,7 @@
 
 #include <array>
 #include <algorithm>
+#include <cstdio>
 #include <cstring>
 
 #include "gloo/common/logging.h"
@@ -19,6 +20,7 @@
 namespace gloo {
 
 void reduce(ReduceOptions& opts) {
+  fprintf(stderr, "reduce\n");
   if (opts.elements == 0) {
     return;
   }

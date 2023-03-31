@@ -8,6 +8,7 @@
 
 #include "gloo/gather.h"
 
+#include <cstdio>
 #include <cstring>
 
 #include "gloo/common/logging.h"
@@ -16,6 +17,7 @@
 namespace gloo {
 
 void gather(GatherOptions& opts) {
+  fprintf(stderr, "gather\n");
   const auto& context = opts.context;
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();

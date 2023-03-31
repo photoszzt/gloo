@@ -9,6 +9,7 @@
 #include "gloo/scatter.h"
 
 #include <algorithm>
+#include <cstdio>
 #include <cstring>
 
 #include "gloo/common/logging.h"
@@ -17,6 +18,7 @@
 namespace gloo {
 
 void scatter(ScatterOptions& opts) {
+  fprintf(stderr, "scatter\n");
   const auto& context = opts.context;
   std::vector<std::unique_ptr<transport::UnboundBuffer>>& in = opts.in;
   std::unique_ptr<transport::UnboundBuffer>& out = opts.out;

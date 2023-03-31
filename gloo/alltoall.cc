@@ -9,6 +9,7 @@
 #include "gloo/alltoall.h"
 
 #include <cstring>
+#include <cstdio>
 
 #include "gloo/common/logging.h"
 #include "gloo/types.h"
@@ -16,6 +17,7 @@
 namespace gloo {
 
 void alltoall(AlltoallOptions& opts) {
+  fprintf(stderr, "all2all\n");
   const auto& context = opts.context;
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();

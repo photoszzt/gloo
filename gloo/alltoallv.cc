@@ -117,6 +117,7 @@ void AlltoallvOptions::setOutput(
 }
 
 void alltoallv(AlltoallvOptions& opts) {
+  fprintf(stderr, "all2allv\n");
   const auto& context = opts.context;
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();
