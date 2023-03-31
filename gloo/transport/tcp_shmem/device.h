@@ -13,6 +13,7 @@
 #include <condition_variable>
 #include <memory>
 #include <mutex>
+#include <string>
 #include <thread>
 
 #include <gloo/transport/device.h>
@@ -21,14 +22,10 @@
 
 namespace gloo {
 namespace transport {
-namespace tcp {
-
-struct attr CreateDeviceAttr(const struct attr& src);
+namespace tcp_shmem {
 
 std::shared_ptr<::gloo::transport::Device> CreateDevice(
-    const struct attr&);
-
-const std::string sockaddrToInterfaceName(const struct attr& attr);
+    const struct tcp::attr&, const std::string shmem_path);
 
 // Forward declarations
 class Pair;
@@ -37,7 +34,8 @@ class Buffer;
 class Device : public ::gloo::transport::Device,
                public std::enable_shared_from_this<Device> {
  public:
-  explicit Device(const struct attr& attr);
+  Device() = delete;
+  explicit Device(const struct tcp::attr& attr, const std::string shmem_path);
   virtual ~Device();
 
   virtual std::string str() const override;
@@ -49,23 +47,24 @@ class Device : public ::gloo::transport::Device,
   virtual std::shared_ptr<::gloo::transport::Context> createContext(
       int rank, int size) override;
 
-  void registerDescriptor(int fd, int events, Handler* h);
-  void unregisterDescriptor(int fd, Handler* h);
+  void registerDescriptor(int fd, int events, tcp::Handler* h);
+  void unregisterDescriptor(int fd, tcp::Handler* h);
 
  protected:
-  const struct attr attr_;
+  const struct tcp::attr attr_;
 
   friend class Pair;
   friend class Buffer;
 
  private:
-  std::shared_ptr<Loop> loop_;
+  std::shared_ptr<tcp::Loop> loop_;
 
   std::string interfaceName_;
   int interfaceSpeedMbps_;
   std::string pciBusID_;
+  std::string shmem_path_;
 };
 
-} // namespace tcp
+} // namespace tcp_shmem
 } // namespace transport
 } // namespace gloo

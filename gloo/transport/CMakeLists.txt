@@ -20,6 +20,10 @@ if(GLOO_HAVE_TRANSPORT_TCP)
   add_subdirectory(tcp)
 endif()
 
+if(GLOO_HAVE_TRANSPORT_TCP_SHMEM)
+  add_subdirectory(tcp_shmem)
+endif()
+
 if(GLOO_HAVE_TRANSPORT_IBVERBS)
   add_subdirectory(ibverbs)
 endif()
