@@ -10,6 +10,7 @@
 
 #include <array>
 #include <cstring>
+#include <stdio.h>
 
 #include "gloo/common/logging.h"
 #include "gloo/types.h"
@@ -17,6 +18,7 @@
 namespace gloo {
 
 void allgather(AllgatherOptions& opts) {
+  fprintf(stderr, "allgather\n");
   const auto& context = opts.context;
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();

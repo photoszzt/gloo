@@ -8,6 +8,7 @@
 
 #include "gloo/allgatherv.h"
 
+#include <cstdio>
 #include <cstring>
 #include <numeric>
 
@@ -69,6 +70,7 @@ void AllgathervOptions::setOutput(
 }
 
 void allgatherv(AllgathervOptions& opts) {
+  fprintf(stderr, "allgatherv\n");
   const auto& context = opts.context;
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();

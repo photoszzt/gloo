@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <cstdio>
 #include <math.h>
 #include <stddef.h>
 #include <string.h>
@@ -320,6 +321,7 @@ class ReduceScatterHalvingDoubling : public Algorithm {
   }
 
   void run() {
+    fprintf(stderr, "reduce_scatter\n");
     size_t bufferOffset = 0;
     size_t numItems =
         stepsWithinBlock_ > 0 ? chunkSize_ << (steps_ - 1) : count_;

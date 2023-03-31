@@ -65,6 +65,7 @@ class BroadcastOneToAll : public Algorithm {
   }
 
   void run() {
+    fprintf(stderr, "bcast_1toall, send bytes: %lu\n", bytes_);
     if (contextSize_ == 1) {
       broadcastLocally();
       return;

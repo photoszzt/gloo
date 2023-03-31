@@ -9,6 +9,7 @@
 #include "gloo/broadcast.h"
 
 #include <algorithm>
+#include <cstdio>
 #include <cstring>
 
 #include "gloo/common/logging.h"
@@ -21,6 +22,7 @@ void broadcast(BroadcastOptions& opts) {
   const auto& context = opts.context;
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();
+  fprintf(stderr, "bcast, msg_size: %lu\n", out->size);
   const auto slot = Slot::build(kBroadcastSlotPrefix, opts.tag);
 
   // Sanity checks

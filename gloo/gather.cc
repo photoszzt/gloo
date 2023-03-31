@@ -8,6 +8,7 @@
 
 #include "gloo/gather.h"
 
+#include <cstdio>
 #include <cstring>
 
 #include "gloo/common/logging.h"
@@ -20,6 +21,7 @@ void gather(GatherOptions& opts) {
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();
   const auto slot = Slot::build(kGatherSlotPrefix, opts.tag);
+  fprintf(stderr, "gather, ele_size: %lu, input_size: %lu\n", opts.elementSize, in->size);
 
   // Sanity checks
   GLOO_ENFORCE(opts.elementSize > 0);

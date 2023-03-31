@@ -55,6 +55,7 @@ class AllgatherRing : public Algorithm {
   virtual ~AllgatherRing() {}
 
   void run() {
+    fprintf(stderr, "allgatherRing\n");
     const int rank = this->contextRank_;
     const int numRounds = this->contextSize_ - 1;
 

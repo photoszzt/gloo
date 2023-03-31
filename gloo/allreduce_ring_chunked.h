@@ -10,6 +10,7 @@
 
 #include <stddef.h>
 #include <string.h>
+#include <cstdio>
 
 #include "gloo/algorithm.h"
 #include "gloo/context.h"
@@ -81,6 +82,7 @@ class AllreduceRingChunked : public Algorithm {
   }
 
   void run() {
+    fprintf(stderr, "AllreduceRingChunked, bytes: %d, counts: %u\n", bytes_, count_);
     if (count_ == 0) {
       return;
     }

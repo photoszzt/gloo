@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <cstdio>
 #include <math.h>
 
 #include "gloo/algorithm.h"
@@ -52,6 +53,7 @@ class PairwiseExchange: public Algorithm {
   }
 
   void run() {
+    fprintf(stderr, "pairwise_exch\n");
     for (int i = 0; i < numDestinations_; i++) {
       sendBuffers_[i]->send();
       recvBuffers_[i]->waitRecv();
