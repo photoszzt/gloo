@@ -136,9 +136,11 @@ void allreduce(const detail::AllreduceOptionsImpl& opts) {
   switch (opts.algorithm) {
     case detail::AllreduceOptionsImpl::UNSPECIFIED:
     case detail::AllreduceOptionsImpl::RING:
+      fprintf(stderr, "allreduce_ring: %d B\n", totalBytes);
       ring(opts, reduceInputs, broadcastOutputs);
       break;
     case detail::AllreduceOptionsImpl::BCUBE:
+      fprintf(stderr, "allreduce_bcube: %d B\n", totalBytes);
       bcube(opts, reduceInputs, broadcastOutputs);
       break;
     default:
@@ -150,7 +152,6 @@ void ring(
     const detail::AllreduceOptionsImpl& opts,
     ReduceRangeFunction reduceInputs,
     BroadcastRangeFunction broadcastOutputs) {
-  fprintf(stderr, "allreduce_ring\n");
   const auto& context = opts.context;
   const std::vector<std::unique_ptr<transport::UnboundBuffer>>& out = opts.out;
   const auto slot = Slot::build(kAllreduceSlotPrefix, opts.tag);
@@ -432,7 +433,6 @@ void bcube(
     const detail::AllreduceOptionsImpl& opts,
     ReduceRangeFunction reduceInputs,
     BroadcastRangeFunction broadcastOutputs) {
-  fprintf(stderr, "allreduce_bcube\n");
   const auto& context = opts.context;
   const auto slot = Slot::build(kAllreduceSlotPrefix, opts.tag);
   const auto elementSize = opts.elementSize;
