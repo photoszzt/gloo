@@ -18,7 +18,8 @@
 namespace gloo {
 
 void scatter(ScatterOptions& opts) {
-  fprintf(stderr, "scatter\n");
+  fprintf(stderr, "scatter, in_eles: %lu, ele_size: %lu\n",
+          opts.in.size(), opts.elementSize);
   const auto& context = opts.context;
   std::vector<std::unique_ptr<transport::UnboundBuffer>>& in = opts.in;
   std::unique_ptr<transport::UnboundBuffer>& out = opts.out;

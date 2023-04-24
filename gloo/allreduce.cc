@@ -152,6 +152,7 @@ void ring(
     const detail::AllreduceOptionsImpl& opts,
     ReduceRangeFunction reduceInputs,
     BroadcastRangeFunction broadcastOutputs) {
+  fprintf(stderr, "allreduce_ring_func\n");
   const auto& context = opts.context;
   const std::vector<std::unique_ptr<transport::UnboundBuffer>>& out = opts.out;
   const auto slot = Slot::build(kAllreduceSlotPrefix, opts.tag);
@@ -433,6 +434,7 @@ void bcube(
     const detail::AllreduceOptionsImpl& opts,
     ReduceRangeFunction reduceInputs,
     BroadcastRangeFunction broadcastOutputs) {
+  fprintf(stderr, "allreduce_bcube_func\n");
   const auto& context = opts.context;
   const auto slot = Slot::build(kAllreduceSlotPrefix, opts.tag);
   const auto elementSize = opts.elementSize;

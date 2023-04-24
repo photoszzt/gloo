@@ -72,7 +72,11 @@ void GathervOptions::setOutput(
 }
 
 void gatherv(GathervOptions& opts) {
-  fprintf(stderr, "gatherv\n");
+  fprintf(stderr, "gatherv, ele_size: %lu, eles_per_rank: ", opts.elementSize);
+  for (int i=0; i < opts.elementsPerRank.size(); i++) {
+    fprintf(stderr, "%lu, ", opts.elementsPerRank[i]);
+  }
+  fprintf(stderr, "\n");
   const auto& context = opts.context;
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();

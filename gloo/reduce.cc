@@ -20,7 +20,7 @@
 namespace gloo {
 
 void reduce(ReduceOptions& opts) {
-  fprintf(stderr, "reduce\n");
+  fprintf(stderr, "reduce, eles: %lu, ele_size: %lu\n", opts.elements, opts.elementSize);
   if (opts.elements == 0) {
     return;
   }

@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <cstdio>
 #include <stddef.h>
 #include <string.h>
 
@@ -67,6 +68,7 @@ class AllreduceRing : public Algorithm {
   }
 
   void run() {
+    fprintf(stderr, "allreduce_ring, bytes: %d, count: %d\n", bytes_, count_);
     if (count_ == 0) {
       return;
     }

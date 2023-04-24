@@ -222,6 +222,7 @@ class AllreduceHalvingDoubling : public Algorithm {
   }
 
   void run() {
+    fprintf(stderr, "allreduce_halving_doubling, bytes: %d, count: %u\n", bytes_, count_);
     if (count_ == 0) {
       return;
     }
