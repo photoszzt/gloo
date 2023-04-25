@@ -12,6 +12,7 @@
 #include <array>
 #include <cstring>
 #include <cstdio>
+#include <chrono>
 
 #include "gloo/common/logging.h"
 #include "gloo/math.h"
@@ -133,14 +134,15 @@ void allreduce(const detail::AllreduceOptionsImpl& opts) {
     return;
   }
 
+  auto ts = std::chrono::steady_clock::now().time_since_epoch();
   switch (opts.algorithm) {
     case detail::AllreduceOptionsImpl::UNSPECIFIED:
     case detail::AllreduceOptionsImpl::RING:
-      fprintf(stderr, "allreduce_ring: %d B\n", totalBytes);
+      std::cerr << "allreduce_ring: " << totalBytes << " B, " << ts.count() << std::endl;
       ring(opts, reduceInputs, broadcastOutputs);
       break;
     case detail::AllreduceOptionsImpl::BCUBE:
-      fprintf(stderr, "allreduce_bcube: %d B\n", totalBytes);
+      std::cerr << "allreduce_bcube: " << totalBytes << " B, " << ts.count() << std::endl;
       bcube(opts, reduceInputs, broadcastOutputs);
       break;
     default:
