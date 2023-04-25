@@ -12,7 +12,7 @@
 #include <array>
 #include <cstring>
 #include <cstdio>
-#include <chrono>
+// #include <chrono>
 
 #include "gloo/common/logging.h"
 #include "gloo/math.h"
@@ -134,15 +134,17 @@ void allreduce(const detail::AllreduceOptionsImpl& opts) {
     return;
   }
 
-  auto ts = std::chrono::steady_clock::now().time_since_epoch();
+  // auto ts = std::chrono::steady_clock::now().time_since_epoch();
   switch (opts.algorithm) {
     case detail::AllreduceOptionsImpl::UNSPECIFIED:
     case detail::AllreduceOptionsImpl::RING:
-      std::cerr << "allreduce_ring: " << totalBytes << " B, " << ts.count() << std::endl;
+      // std::cerr << "allreduce_ring: " << totalBytes << " B, " << ts.count() << std::endl;
+      fprintf(stdout, "allreduce_ring: %ld B\n", totalBytes);
       ring(opts, reduceInputs, broadcastOutputs);
       break;
     case detail::AllreduceOptionsImpl::BCUBE:
-      std::cerr << "allreduce_bcube: " << totalBytes << " B, " << ts.count() << std::endl;
+      // std::cerr << "allreduce_bcube: " << totalBytes << " B, " << ts.count() << std::endl;
+      fprintf(stdout, "allreduce_bcube: %ld B\n", totalBytes);
       bcube(opts, reduceInputs, broadcastOutputs);
       break;
     default:
@@ -154,7 +156,6 @@ void ring(
     const detail::AllreduceOptionsImpl& opts,
     ReduceRangeFunction reduceInputs,
     BroadcastRangeFunction broadcastOutputs) {
-  fprintf(stderr, "allreduce_ring_func\n");
   const auto& context = opts.context;
   const std::vector<std::unique_ptr<transport::UnboundBuffer>>& out = opts.out;
   const auto slot = Slot::build(kAllreduceSlotPrefix, opts.tag);
@@ -436,7 +437,6 @@ void bcube(
     const detail::AllreduceOptionsImpl& opts,
     ReduceRangeFunction reduceInputs,
     BroadcastRangeFunction broadcastOutputs) {
-  fprintf(stderr, "allreduce_bcube_func\n");
   const auto& context = opts.context;
   const auto slot = Slot::build(kAllreduceSlotPrefix, opts.tag);
   const auto elementSize = opts.elementSize;
