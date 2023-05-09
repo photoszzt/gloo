@@ -82,7 +82,7 @@ class AllreduceRingChunked : public Algorithm {
   }
 
   void run() {
-    fprintf(stderr, "AllreduceRingChunked, bytes: %d, counts: %u\n", bytes_, count_);
+    fmt::print("AllreduceRingChunked, bytes: {}, totBytes: {}\n", bytes_, bytes_ * ptrs_.size());
     if (count_ == 0) {
       return;
     }

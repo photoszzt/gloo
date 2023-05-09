@@ -7,7 +7,7 @@
  */
 
 #include "gloo/barrier.h"
-#include <cstdio>
+#include "fmt/core.h"
 
 namespace gloo {
 
@@ -17,7 +17,7 @@ BarrierOptions::BarrierOptions(const std::shared_ptr<Context>& context)
       timeout(context->getTimeout()) {}
 
 void barrier(BarrierOptions& opts) {
-  fprintf(stderr, "barrier\n");
+  fmt::print("barrier\n");
   const auto& context = opts.context;
   auto& buffer = opts.buffer;
   const auto slot = Slot::build(kBarrierSlotPrefix, opts.tag);

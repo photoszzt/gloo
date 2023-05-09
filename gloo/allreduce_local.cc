@@ -8,8 +8,8 @@
 
 #include "gloo/allreduce_local.h"
 
-#include <cstdio>
 #include <string.h>
+#include "fmt/core.h"
 
 namespace gloo {
 
@@ -28,7 +28,7 @@ AllreduceLocal<T>::AllreduceLocal(
 
 template <typename T>
 void AllreduceLocal<T>::run() {
-  fprintf(stderr, "allreduceLocal\n");
+  fmt::print("allreduceLocal, bytes: {}\n", ptrs_.size() * bytes_);
   // Reduce specified pointers into ptrs_[0]
   for (int i = 1; i < ptrs_.size(); i++) {
     fn_->call(ptrs_[0], ptrs_[i], count_);

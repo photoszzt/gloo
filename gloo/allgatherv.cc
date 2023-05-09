@@ -14,6 +14,7 @@
 
 #include "gloo/common/logging.h"
 #include "gloo/types.h"
+#include "fmt/core.h"
 
 namespace gloo {
 
@@ -70,10 +71,10 @@ void AllgathervOptions::setOutput(
 }
 
 void allgatherv(AllgathervOptions& opts) {
-  fprintf(stderr, "allgatherv\n");
   const auto& context = opts.context;
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();
+  fmt::print("allgatherv, recv bytes: {}, send bytes: {}\n", out->size, in->size);
   const auto slot = Slot::build(kAllgatherSlotPrefix, opts.tag);
 
   // Sanity checks

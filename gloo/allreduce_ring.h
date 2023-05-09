@@ -8,12 +8,12 @@
 
 #pragma once
 
-#include <cstdio>
 #include <stddef.h>
 #include <string.h>
 
 #include "gloo/algorithm.h"
 #include "gloo/context.h"
+#include "fmt/core.h"
 
 namespace gloo {
 
@@ -68,7 +68,7 @@ class AllreduceRing : public Algorithm {
   }
 
   void run() {
-    fprintf(stderr, "allreduce_ring, bytes: %d, count: %d\n", bytes_, count_);
+    fmt::print("allreduce_ring, bytes: {}, tot_bytes: {}\n", bytes_, bytes_ * ptrs_.size());
     if (count_ == 0) {
       return;
     }

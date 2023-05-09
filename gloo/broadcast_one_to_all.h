@@ -14,6 +14,7 @@
 #include "gloo/algorithm.h"
 #include "gloo/common/common.h"
 #include "gloo/common/logging.h"
+#include "fmt/core.h"
 
 namespace gloo {
 
@@ -65,7 +66,7 @@ class BroadcastOneToAll : public Algorithm {
   }
 
   void run() {
-    fprintf(stderr, "bcast_1toall, send bytes: %lu\n", bytes_);
+    fmt::print("bcast_1toall, send bytes: {}\n", bytes_ * ptrs_.size() * contextSize_);
     if (contextSize_ == 1) {
       broadcastLocally();
       return;

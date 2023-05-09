@@ -337,7 +337,7 @@ class AllreduceBcube : public Algorithm {
 #endif
 
   void run() {
-    fprintf(stderr, "allreduce_bcube, bytes: %d\n", bytes_);
+    fmt::print("allreduce_bcube, bytes: {}\n", bytes_);
     if (totalNumElems_ == 0) {
       return;
     }

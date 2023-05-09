@@ -37,6 +37,7 @@ class BarrierAllToAll : public Barrier {
   }
 
   void run() {
+    fmt::print("barrier_all_2_all\n");
     // Notify peers
     for (auto& buffer : sendBuffers_) {
       buffer->send();

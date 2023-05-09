@@ -15,6 +15,7 @@
 #include "gloo/algorithm.h"
 #include "gloo/common/error.h"
 #include "gloo/context.h"
+#include "fmt/core.h"
 
 namespace gloo {
 
@@ -222,7 +223,7 @@ class AllreduceHalvingDoubling : public Algorithm {
   }
 
   void run() {
-    fprintf(stderr, "allreduce_halving_doubling, bytes: %d, count: %u\n", bytes_, count_);
+    fmt::print("allreduce_halving_doubling, bytes: {}, count: {}\n", bytes_, count_);
     if (count_ == 0) {
       return;
     }

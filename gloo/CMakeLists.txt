@@ -21,6 +21,8 @@ list(APPEND GLOO_SRCS
   "${CMAKE_CURRENT_SOURCE_DIR}/reduce.cc"
   "${CMAKE_CURRENT_SOURCE_DIR}/scatter.cc"
   "${CMAKE_CURRENT_SOURCE_DIR}/types.cc"
+  "${CMAKE_CURRENT_SOURCE_DIR}/fmt/format.cc"
+  "${CMAKE_CURRENT_SOURCE_DIR}/fmt/os.cc"
   )
 
 list(APPEND GLOO_HDRS
@@ -166,6 +168,7 @@ elseif(USE_TCP_OPENSSL_LOAD)
 endif()
 
 target_link_libraries(gloo PRIVATE ${gloo_DEPENDENCY_LIBS})
+target_include_directories(gloo PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Add Interface include directories that are relocatable.
 target_include_directories(gloo INTERFACE $<INSTALL_INTERFACE:include>)

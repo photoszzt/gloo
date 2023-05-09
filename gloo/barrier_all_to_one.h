@@ -9,7 +9,7 @@
 #pragma once
 
 #include "gloo/barrier.h"
-#include <cstdio>
+#include "fmt/core.h"
 
 namespace gloo {
 
@@ -53,7 +53,7 @@ class BarrierAllToOne : public Barrier {
   }
 
   void run() {
-    fprintf(stderr, "barrier_all_2_one\n");
+    fmt::print("barrier_all_2_one\n");
     if (this->contextRank_ == rootRank_) {
       // Wait for message from all peers
       for (auto& b : recvBuffers_) {

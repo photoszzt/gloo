@@ -13,6 +13,7 @@
 
 #include "gloo/common/logging.h"
 #include "gloo/types.h"
+#include "fmt/core.h"
 
 namespace gloo {
 
@@ -117,10 +118,10 @@ void AlltoallvOptions::setOutput(
 }
 
 void alltoallv(AlltoallvOptions& opts) {
-  fprintf(stderr, "all2allv\n");
   const auto& context = opts.context;
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();
+  fmt::print("all2allv: recv bytes: {}\n", out->size);
   std::vector<size_t>& inOffsetPerRank = opts.inOffsetPerRank;
   std::vector<size_t>& inLengthPerRank = opts.inLengthPerRank;
   std::vector<size_t>& outOffsetPerRank = opts.outOffsetPerRank;

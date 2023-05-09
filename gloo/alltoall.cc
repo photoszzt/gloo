@@ -13,14 +13,15 @@
 
 #include "gloo/common/logging.h"
 #include "gloo/types.h"
+#include "fmt/core.h"
 
 namespace gloo {
 
 void alltoall(AlltoallOptions& opts) {
-  fprintf(stderr, "all2all\n");
   const auto& context = opts.context;
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();
+  fmt::print("all2all, recv bytes: {}\n", out->size);
   const auto slot = Slot::build(kAlltoallSlotPrefix, opts.tag);
 
   // Sanity checks.

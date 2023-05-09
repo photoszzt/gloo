@@ -13,6 +13,7 @@
 
 #include "gloo/algorithm.h"
 #include "gloo/context.h"
+#include "fmt/core.h"
 
 namespace gloo {
 
@@ -55,7 +56,7 @@ class AllgatherRing : public Algorithm {
   virtual ~AllgatherRing() {}
 
   void run() {
-    fprintf(stderr, "allgatherRing\n");
+    fmt::print("allgatherRing, recv bytes: {}\n", inPtrs_.size() * context_->size * bytes_);
     const int rank = this->contextRank_;
     const int numRounds = this->contextSize_ - 1;
 

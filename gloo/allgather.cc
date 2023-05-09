@@ -14,14 +14,15 @@
 
 #include "gloo/common/logging.h"
 #include "gloo/types.h"
+#include "fmt/core.h"
 
 namespace gloo {
 
 void allgather(AllgatherOptions& opts) {
-  fprintf(stderr, "allgather\n");
   const auto& context = opts.context;
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();
+  fmt::print("allgather, recv bytes: {}, send bytes: {}\n", out->size, in->size);
   const auto slot = Slot::build(kAllgatherSlotPrefix, opts.tag);
 
   // Sanity checks

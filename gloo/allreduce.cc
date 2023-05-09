@@ -11,12 +11,12 @@
 #include <algorithm>
 #include <array>
 #include <cstring>
-#include <cstdio>
 // #include <chrono>
 
 #include "gloo/common/logging.h"
 #include "gloo/math.h"
 #include "gloo/types.h"
+#include "fmt/core.h"
 
 namespace gloo {
 
@@ -139,12 +139,12 @@ void allreduce(const detail::AllreduceOptionsImpl& opts) {
     case detail::AllreduceOptionsImpl::UNSPECIFIED:
     case detail::AllreduceOptionsImpl::RING:
       // std::cerr << "allreduce_ring: " << totalBytes << " B, " << ts.count() << std::endl;
-      fprintf(stdout, "allreduce_ring: %ld B\n", totalBytes);
+      fmt::print("allreduce_ring: {} B\n", totalBytes);
       ring(opts, reduceInputs, broadcastOutputs);
       break;
     case detail::AllreduceOptionsImpl::BCUBE:
       // std::cerr << "allreduce_bcube: " << totalBytes << " B, " << ts.count() << std::endl;
-      fprintf(stdout, "allreduce_bcube: %ld B\n", totalBytes);
+      fmt::print("allreduce_bcube: {} B\n", totalBytes);
       bcube(opts, reduceInputs, broadcastOutputs);
       break;
     default:

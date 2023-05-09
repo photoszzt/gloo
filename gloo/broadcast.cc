@@ -15,15 +15,15 @@
 #include "gloo/common/logging.h"
 #include "gloo/math.h"
 #include "gloo/types.h"
+#include "fmt/core.h"
 
 namespace gloo {
 
 void broadcast(BroadcastOptions& opts) {
-  fprintf(stderr, "bcast\n");
   const auto& context = opts.context;
   transport::UnboundBuffer* in = opts.in.get();
   transport::UnboundBuffer* out = opts.out.get();
-  fprintf(stderr, "bcast, msg_size: %lu\n", out->size);
+  fmt::print("bcast, recv size: {}\n", out->size);
   const auto slot = Slot::build(kBroadcastSlotPrefix, opts.tag);
 
   // Sanity checks
